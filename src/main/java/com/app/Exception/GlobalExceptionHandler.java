@@ -57,4 +57,34 @@ public class GlobalExceptionHandler {
     public String handleLoginException(LoginException e) {
         return e.getMessage(); // Return error message from the AccountService class
     }
+
+    // ========================== Message-related exceptions ==========================
+
+    // Handle Message Blank Text Exception
+    @ExceptionHandler(MessageBlankTextException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public String handleMessageBlankTextException(MessageBlankTextException e) {
+        return e.getMessage(); // Return error message from the MessageService class
+    }
+
+    // Handle Message Blank Too Long Exception
+    @ExceptionHandler(MessageTooLongException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public String handleMessageTooLongException(MessageTooLongException e) {
+        return e.getMessage(); // Return error message from the MessageService class
+    }
+
+    // Handle Message Not Found Exception
+    @ExceptionHandler(MessageNotFoundException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public String handleMessageNotFoundException(MessageNotFoundException e) {
+        return e.getMessage(); // Return error message from the MessageService class
+    }
+
+    // Handle User Not Found Exception
+    @ExceptionHandler(UserNotFoundException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public String handleUserNotFoundException(UserNotFoundException e) {
+        return e.getMessage(); // Return message indicating the user doesn't exist
+    }
 }
