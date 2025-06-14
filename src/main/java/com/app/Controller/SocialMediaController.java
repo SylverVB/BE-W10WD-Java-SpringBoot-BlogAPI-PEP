@@ -1,26 +1,32 @@
 package com.app.Controller;
 
 import com.app.Entity.Account;
+import com.app.Entity.Message;
 import com.app.Service.AccountService;
+import com.app.Service.MessageService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import java.util.List;
 
 /**
- * Controller for handling account operations.
- * Provides endpoints for user registration and authentication.
+ * Controller for handling account and message-related operations.
+ * Provides endpoints for user registration, authentication, and message management.
  */
 @RestController
 public class SocialMediaController {
     private final AccountService accountService;
+    private final MessageService messageService;
 
     /**
      * Constructor for SocialMediaController, injecting required services.
      *
      * @param accountService Service handling account operations.
+     * @param messageService Service handling message operations.
      */
-    public SocialMediaController(AccountService accountService) {
+    public SocialMediaController(AccountService accountService, MessageService messageService) {
         this.accountService = accountService;
+        this.messageService = messageService;
     }
 
     // ========================== Account-related endpoints ==========================
@@ -62,5 +68,95 @@ public class SocialMediaController {
 
         // Step 2: If login is successful, returning the account details with 200 OK status
         return ResponseEntity.ok(authenticatedAccount); // return ResponseEntity.status(200).body(authenticatedAccount);
+    }
+
+    // ========================== Message-related endpoints ==========================
+
+    /**
+     * Creates a new message.
+     *
+     * @param message The message object containing sender, receiver, and content.
+     * @return A ResponseEntity containing the created account and the HTTP status.
+     * 
+     * Note: MessageBlankTextException, MessageTooLongException, and UserNotFoundException are handled globally by GlobalExceptionHandler.
+     */
+    @PostMapping("/messages")
+    public ResponseEntity<Message> createMessage(@RequestBody Message message) {
+        return ResponseEntity.ok(messageService.createMessage(message));
+    }
+
+    /**
+     * Retrieves all messages.
+     *
+     * @return A ResponseEntity containing a list of all messages and the HTTP status.
+     */
+    @GetMapping("/messages")
+    public ResponseEntity<List<Message>> getAllMessages() {
+        return ResponseEntity.ok(messageService.getAllMessages());
+    }
+
+    /**
+     * Retrieves a message by its ID.
+     *
+     * @param messageId The ID of the message to retrieve.
+     * @return A ResponseEntity containing the requested message and the HTTP status.
+     */
+    @GetMapping("/messages/{messageId}")
+    public ResponseEntity<Message> getMessageById(@PathVariable Integer messageId) {
+        Message message = messageService.getMessageById(messageId);
+        return ResponseEntity.ok(message);
+    }
+
+    /**
+     * Updates the text of an existing message by ID.
+     *
+     * @param messageId The ID of the message to update.
+     * @param message   The new message object containing the updated content.
+     * @return A ResponseEntity containing the number of updated rows and the HTTP status.
+     * 
+     * Note: MessageBlankTextException, MessageTooLongException, and MessageNotFoundException are handled globally by GlobalExceptionHandler.
+     */
+    @PatchMapping("/messages/{messageId}")
+    public ResponseEntity<Integer> updateMessage(@PathVariable Integer messageId, @RequestBody Message message) {
+        // Calling the service layer to update the message
+        int rowsUpdated = messageService.updateMessage(messageId, message);
+    
+        // If successful, returning the updated message count (1 expected)
+        return ResponseEntity.ok(rowsUpdated);
+    }
+
+    /**
+     * Deletes a message by its ID.
+     *
+     * @param messageId The ID of the message to delete.
+     * @return A ResponseEntity containing the deletion status and the HTTP status.
+     */
+    @DeleteMapping("/messages/{messageId}")
+    public ResponseEntity<Integer> deleteMessage(@PathVariable Integer messageId) {
+        boolean messageFound = messageService.deleteMessage(messageId);
+
+        // If the message was found and deleted, return 200 OK with "1" (modified rows) in the response body.
+        if (messageFound) {
+            return ResponseEntity.ok(1);
+        }
+        
+        // If the message was not found, return 200 OK with an empty body
+        return ResponseEntity.ok().build();
+    } 
+
+    /**
+     * Retrieves all messages sent by a specific user.
+     *
+     * @param accountId The ID of the user whose messages are to be retrieved.
+     * @return A ResponseEntity containing a list of messages from the specified user and the HTTP status.
+     * 
+     * Note: Returns an empty list if the user has no messages.
+     */
+    @GetMapping("/accounts/{accountId}/messages")
+    public ResponseEntity<List<Message>> getMessagesByUser(@PathVariable Integer accountId) {
+        List<Message> messages = messageService.getMessagesByUser(accountId);
+    
+        // Returning 200, even if the list is empty
+        return ResponseEntity.ok(messages);
     }
 }
