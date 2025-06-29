@@ -24,7 +24,7 @@
   <parent>
     <groupId>org.springframework.boot</groupId>
     <artifactId>spring-boot-starter-parent</artifactId>
-    <version>3.4.5</version> <!-- This version is fine for the parent POM -->
+    <version>3.4.7</version> <!-- This version is fine for the parent POM -->
     <relativePath/> <!-- lookup parent from repository -->
   </parent>
 
@@ -34,7 +34,7 @@
     <dependency>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter</artifactId>
-        <!-- <version>3.4.5</version> -->
+        <!-- <version>3.4.7</version> -->
     </dependency>
 
     <!-- Spring Boot Web Starter (For REST API support) -->
@@ -42,7 +42,7 @@
     <dependency>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-web</artifactId>
-        <!-- <version>3.4.5</version> -->
+        <!-- <version>3.4.7</version> -->
     </dependency>
 
     <!-- Spring Boot Actuator Starter (For monitoring & management) -->
@@ -50,7 +50,7 @@
     <dependency>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-actuator</artifactId>
-        <!-- <version>3.4.5</version> -->
+        <!-- <version>3.4.7</version> -->
     </dependency>
 
     <!-- Spring Boot Starter Data JPA -->
@@ -58,7 +58,7 @@
     <dependency>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-data-jpa</artifactId>
-        <!-- <version>3.4.5</version> -->
+        <!-- <version>3.4.7</version> -->
     </dependency>
 
     <!-- Spring Boot DevTools -->
@@ -85,7 +85,7 @@
     <dependency>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-test</artifactId>
-        <!-- <version>3.4.5</version> -->
+        <!-- <version>3.4.7</version> -->
         <scope>test</scope>
     </dependency>
 
@@ -112,7 +112,7 @@
       <plugin>
           <groupId>org.springframework.boot</groupId>
           <artifactId>spring-boot-maven-plugin</artifactId>
-          <!-- <version>3.4.5</version> -->
+          <!-- <version>3.4.7</version> -->
           <configuration>
             <excludes>
                 <exclude>
